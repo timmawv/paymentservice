@@ -14,7 +14,7 @@ public class CreatePaymentTransactionRequest {
 
     @NotNull
     private Long sourceBankAccountId;
-    private long destinationBankAccountId;
+    private Long destinationBankAccountId;
     @NotNull
     private BigDecimal amount;
     @NotNull
