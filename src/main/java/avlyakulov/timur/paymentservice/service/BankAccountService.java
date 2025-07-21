@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -17,5 +18,9 @@ public class BankAccountService {
 
     public Optional<BankAccount> findById(Long id) {
         return bankAccountRepository.findById(id);
+    }
+
+    public void saveAll(List<BankAccount> accounts) {
+        bankAccountRepository.saveAll(accounts);
     }
 }

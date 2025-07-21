@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -31,7 +32,6 @@ public class CreatePaymentTransactionHandler implements PaymentTransactionComman
     private final PaymentTransactionProducer paymentTransactionProducer;
 
     @Override
-    @Transactional
     public void process(String requestId, String message) {
         var request = jsonConverter.toObject(message, CreatePaymentTransactionRequest.class);
         paymentTransactionValidator.validateCreatePaymentTransactionRequest(request);
@@ -56,6 +56,12 @@ public class CreatePaymentTransactionHandler implements PaymentTransactionComman
 
         //todo here make response
         PaymentTransaction savedEntity = paymentTransactionService.save(entity);
+
+        if (destinationBankAccount.isPresent())
+            bankAccountService.saveAll(List.of(sourceBankAccount, destinationBankAccount.get()));
+        else
+            bankAccountService.saveAll(List.of(sourceBankAccount));
+
         paymentTransactionProducer.sendCommandResult(requestId, jsonConverter.toJson(savedEntity), PaymentTransactionCommand.CREATE);
     }
 }

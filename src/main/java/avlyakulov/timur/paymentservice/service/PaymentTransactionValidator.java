@@ -72,11 +72,18 @@ public class PaymentTransactionValidator {
             if (sourceTransaction.isEmpty())
                errors.add("Source transaction not found, transaction id: " + request.getTransactionId());
             else {
+                var existedSourceTransaction = sourceTransaction.get();
                 var refundedAmount = sourceTransaction.get().getRefunds().stream()
                         .map(Refund::getRefundAmount)
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
+                if (existedSourceTransaction.getAmount().subtract(refundedAmount).compareTo(request.getRefundedAmount()) < 0) {
+                    errors.add("Requested amount for refund bigger than source transaction amount, transaction id " + request.getTransactionId());
+                }
+            }
+
+            if (!errors.isEmpty()) {
+                throw new PaymentTransactionValidationException(errors);
             }
         }
-
     }
 }

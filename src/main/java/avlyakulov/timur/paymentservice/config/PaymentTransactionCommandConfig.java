@@ -3,6 +3,8 @@ package avlyakulov.timur.paymentservice.config;
 import avlyakulov.timur.paymentservice.model.enums.PaymentTransactionCommand;
 import avlyakulov.timur.paymentservice.service.handler.CreatePaymentTransactionHandler;
 import avlyakulov.timur.paymentservice.service.handler.PaymentTransactionCommandHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,5 +23,12 @@ public class PaymentTransactionCommandConfig {
         commandHandlers.put(PaymentTransactionCommand.CREATE, createPaymentTransactionHandler);
         commandHandlers.put(PaymentTransactionCommand.REFUND, cancelPaymentTransactionHandler);
         return commandHandlers;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        var objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 }
