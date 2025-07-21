@@ -13,7 +13,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class KafkaManager {
+public class PaymentTransactionConsumer {
 
     private final Map<PaymentTransactionCommand, PaymentTransactionCommandHandler> commandHandlers;
 

@@ -9,5 +9,5 @@ import org.mapstruct.Mapper;
 public interface RefundMapper {
 
     Refund toEntity(CancelPaymentTransactionRequest request);
-    CancelPaymentTransactionResponse toResponse(Refund refund);
+    CancelPaymentTransactionResponse toResponse(CancelPaymentTransactionRequest refund);
 }

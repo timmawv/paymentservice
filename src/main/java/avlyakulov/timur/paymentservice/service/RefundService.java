@@ -2,7 +2,6 @@ package avlyakulov.timur.paymentservice.service;
 
 import avlyakulov.timur.paymentservice.dto.CancelPaymentTransactionRequest;
 import avlyakulov.timur.paymentservice.dto.CancelPaymentTransactionResponse;
-import avlyakulov.timur.paymentservice.mapper.PaymentTransactionMapper;
 import avlyakulov.timur.paymentservice.mapper.RefundMapper;
 import avlyakulov.timur.paymentservice.model.entity.PaymentTransaction;
 import avlyakulov.timur.paymentservice.model.enums.RefundStatus;
@@ -29,9 +28,11 @@ public class RefundService {
         entity.setPaymentTransaction(paymentTransaction);
         entity.setStatus(RefundStatus.COMPLETED);
 
+        //todo make it better now it doesn't work properly
+
         var savedEntity = refundRepository.save(entity);
 
         savedEntity.setPaymentTransaction(paymentTransaction);
-        return refundMapper.toResponse(savedEntity);
+        return refundMapper.toResponse(request);
     }
 }
